@@ -93,16 +93,7 @@ Nexquira addresses these challenges by integrating AI-assisted research directly
 </p>
 
 ---
-
-## Demo
-
-<p align="center">
-  <img src="images/demo.gif" width="900" alt="Nexquira Demo"/>
-</p>
-
----
-
-# 🏗 System Architecture
+#  System Architecture
 
 ```text
 ┌────────────────────────────┐
