@@ -1,4 +1,4 @@
-# 🚀 Nexquira – AI-Powered Research Assistant
+# Nexquira – AI-Powered Research Assistant
 
 <div align="center">
 
