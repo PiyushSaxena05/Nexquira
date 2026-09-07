@@ -1,58 +1,262 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexquira</title>
     <link rel="stylesheet" href="sidepanel.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h2>Nexquira</h2>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">
+                <span>✦</span>
+            </div>
+
+            <div class="brand-text">
+                <h2>Nexquira</h2>
+                <span>Intelligent research companion</span>
+            </div>
         </div>
 
-       
-        <div id="authView" class="auth-view">
+        <div class="header-status">
+            <span class="status-dot"></span>
+            <span>AI Workspace</span>
+        </div>
+    </header>
+
+
+    
+    <div id="authView" class="auth-view">
+
+        <div class="auth-hero">
+            <div class="hero-badge">
+                <span>✦</span>
+                <span>Research, reimagined</span>
+            </div>
+
+            <h1>Turn information<br>into <span>insight.</span></h1>
+
+            <p>
+                Your intelligent companion for understanding,
+                organizing, and remembering what matters.
+            </p>
+        </div>
+
+
+        <div class="auth-card">
+
             <div class="auth-tabs">
-                <button id="loginTabBtn" class="auth-tab active">Login</button>
-                <button id="registerTabBtn" class="auth-tab">Register</button>
+                <button id="loginTabBtn" class="auth-tab active">
+                    Login
+                </button>
+
+                <button id="registerTabBtn" class="auth-tab">
+                    Register
+                </button>
             </div>
 
-            <div id="nameField" class="auth-field" style="display:none;">
-                <input type="text" id="nameInput" placeholder="Name">
-            </div>
-            <div class="auth-field">
-                <input type="email" id="emailInput" placeholder="Email">
-            </div>
-            <div class="auth-field">
-                <input type="password" id="passwordInput" placeholder="Password">
+
+            <div class="auth-form">
+
+                <div id="nameField" class="auth-field" style="display:none;">
+                    <label for="nameInput">Full name</label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">◉</span>
+                        <input
+                            type="text"
+                            id="nameInput"
+                            placeholder="Enter your name"
+                        >
+                    </div>
+                </div>
+
+
+                <div class="auth-field">
+                    <label for="emailInput">Email address</label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉</span>
+                        <input
+                            type="email"
+                            id="emailInput"
+                            placeholder="you@example.com"
+                        >
+                    </div>
+                </div>
+
+
+                <div class="auth-field">
+                    <label for="passwordInput">Password</label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">⌘</span>
+                        <input
+                            type="password"
+                            id="passwordInput"
+                            placeholder="Enter your password"
+                        >
+                    </div>
+                </div>
+
+
+                <button id="authSubmitBtn" class="auth-submit">
+                    <span>Login to workspace</span>
+                    <span class="button-arrow">↗</span>
+                </button>
+
+                <div id="authError" class="auth-error"></div>
+
             </div>
 
-            <button id="authSubmitBtn" class="auth-submit">Login</button>
-            <div id="authError" class="auth-error"></div>
         </div>
+
+
+        <div class="auth-footer">
+            <span class="footer-line"></span>
+            <span>Private workspace · Built for focused research</span>
+            <span class="footer-line"></span>
+        </div>
+
+    </div>
+
+
+    
+    <div id="appView" class="app-view" style="display:none;">
+
+        <!-- USER BAR -->
+        <div class="user-bar">
+            <div class="user-profile">
+                <div class="user-avatar">N</div>
+
+                <div class="user-details">
+                    <span class="user-label">SIGNED IN AS</span>
+                    <span id="userEmail" class="user-email"></span>
+                </div>
+            </div>
+
+            <button id="logoutBtn" class="logout-btn">
+                <span>Logout</span>
+                <span>↗</span>
+            </button>
+        </div>
+
 
        
-        <div id="appView" class="app-view" style="display:none;">
-            <div class="user-bar">
-                <span id="userEmail"></span>
-                <button id="logoutBtn">Logout</button>
+        <section class="workspace-intro">
+            <div class="workspace-eyebrow">
+                <span class="eyebrow-line"></span>
+                <span>RESEARCH WORKSPACE</span>
             </div>
 
-            <div class="actions">
-                <button id="summarizeBtn">Summarize</button>
-                <button id="viewNotesBtn">My Notes</button>
-            </div>
+            <h1>What will you<br><span>discover today?</span></h1>
 
-            <div class="notes">
-                <h3>Research Insights</h3>
-                <textarea id="notes" placeholder="Capture your insights..."></textarea>
-                <button id="saveNotesBtn">Save Notes</button>
-            </div>
+            <p>
+                Select a research action to turn the current
+                page into something useful.
+            </p>
+        </section>
 
-            <div id="results"></div>
-            <div id="notesList"></div>
+
+        
+        <div class="actions">
+
+            <button id="summarizeBtn" class="action-card primary-action">
+                <div class="action-card-top">
+                    <div class="action-icon">✦</div>
+                    <span class="action-arrow">↗</span>
+                </div>
+
+                <div class="action-card-content">
+                    <h3>Summarize</h3>
+                    <p>Extract the key ideas from this page.</p>
+                </div>
+
+                <div class="action-card-footer">
+                    <span>AI-powered analysis</span>
+                    <span class="action-status">●</span>
+                </div>
+            </button>
+
+
+            <button id="viewNotesBtn" class="action-card secondary-action">
+                <div class="action-card-top">
+                    <div class="action-icon">▤</div>
+                    <span class="action-arrow">↗</span>
+                </div>
+
+                <div class="action-card-content">
+                    <h3>My Notes</h3>
+                    <p>Return to your saved research insights.</p>
+                </div>
+
+                <div class="action-card-footer">
+                    <span>Your personal knowledge base</span>
+                    <span class="action-status">●</span>
+                </div>
+            </button>
+
         </div>
+
+
+        
+        <section class="notes">
+
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">CAPTURE</span>
+                    <h3>Research Insights</h3>
+                </div>
+
+                <div class="section-icon">✎</div>
+            </div>
+
+            <p class="section-description">
+                Save the ideas you want to remember.
+            </p>
+
+            <div class="notes-editor">
+                <div class="editor-toolbar">
+                    <span class="editor-dot"></span>
+                    <span class="editor-dot"></span>
+                    <span class="editor-dot"></span>
+                    <span class="editor-label">INSIGHT EDITOR</span>
+                </div>
+
+                <textarea
+                    id="notes"
+                    placeholder="Start capturing your thoughts..."
+                ></textarea>
+
+                <div class="editor-footer">
+                    <span>Write freely. Save what matters.</span>
+
+                    <button id="saveNotesBtn" class="save-notes-btn">
+                        <span>Save insight</span>
+                        <span>↗</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+
+       
+        <div id="results"></div>
+
+        <div id="notesList"></div>
+
     </div>
-    <script src="sidepanel.js"></script>
+
+</div>
+
+<script src="sidepanel.js"></script>
+
 </body>
 </html>
