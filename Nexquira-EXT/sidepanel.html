@@ -2,25 +2,57 @@
 <html lang="en">
 <head>
     <title>Nexquira</title>
-    <link rel = "stylesheet" href="sidepanel.css">
-
+    <link rel="stylesheet" href="sidepanel.css">
 </head>
 <body>
-    <div class ="container">
-        <div class ="header">
+    <div class="container">
+        <div class="header">
             <h2>Nexquira</h2>
         </div>
-        <div class ="actions">
-            <button id = "summarizeBtn">Summarize</button>
+
+       
+        <div id="authView" class="auth-view">
+            <div class="auth-tabs">
+                <button id="loginTabBtn" class="auth-tab active">Login</button>
+                <button id="registerTabBtn" class="auth-tab">Register</button>
+            </div>
+
+            <div id="nameField" class="auth-field" style="display:none;">
+                <input type="text" id="nameInput" placeholder="Name">
+            </div>
+            <div class="auth-field">
+                <input type="email" id="emailInput" placeholder="Email">
+            </div>
+            <div class="auth-field">
+                <input type="password" id="passwordInput" placeholder="Password">
+            </div>
+
+            <button id="authSubmitBtn" class="auth-submit">Login</button>
+            <div id="authError" class="auth-error"></div>
         </div>
-        <div class ="notes">
-            <h3>Research Insights</h3>
-            <textarea id ="notes" placeholder="Capture your insights..."></textarea>
-            <button id = "saveNotesBtn">Save Notes</button>
+
+       
+        <div id="appView" class="app-view" style="display:none;">
+            <div class="user-bar">
+                <span id="userEmail"></span>
+                <button id="logoutBtn">Logout</button>
+            </div>
+
+            <div class="actions">
+                <button id="summarizeBtn">Summarize</button>
+                <button id="viewNotesBtn">My Notes</button>
+            </div>
+
+            <div class="notes">
+                <h3>Research Insights</h3>
+                <textarea id="notes" placeholder="Capture your insights..."></textarea>
+                <button id="saveNotesBtn">Save Notes</button>
+            </div>
+
+            <div id="results"></div>
+            <div id="notesList"></div>
         </div>
-        <div id = "results"></div>
     </div>
-    <script src = "sidepanel.js"></script>
-    
+    <script src="sidepanel.js"></script>
 </body>
 </html>
