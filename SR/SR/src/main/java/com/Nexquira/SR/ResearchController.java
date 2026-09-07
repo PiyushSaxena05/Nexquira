@@ -17,7 +17,7 @@ public class ResearchController {
 
     @PostMapping("/process")
     public ResponseEntity<String> processContent(@RequestBody ResearchRequest request,
-                                                   Authentication authentication) {
+                                                 Authentication authentication) {
         String result = researchService.processContent(request);
 
         String email = authentication.getName();
