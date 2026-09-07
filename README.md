@@ -20,7 +20,7 @@
 
 Nexquira is an AI-powered Chrome Extension designed to streamline online research workflows.
 
-It enables users to instantly summarize selected content from any webpage, generate concise insights using Google's Gemini API, and persist research notes directly inside the browser.
+It enables users to instantly summarize selected content from any webpage, generate concise insights using Google's Gemini API, and persist research notes directly inside the browser — tied to a secure user account rather than just local browser storage.
 
 By minimizing context switching and reducing information overload, Nexquira significantly enhances productivity for students, researchers, developers, and knowledge workers.
 
@@ -36,8 +36,9 @@ However:
 - Switching between tabs for note-taking disrupts focus.
 - Organizing research findings becomes tedious.
 - Revisiting valuable information is difficult.
+- Notes tied only to a browser are lost across devices.
 
-Nexquira addresses these challenges by integrating AI-assisted research directly into the browsing experience.
+Nexquira addresses these challenges by integrating AI-assisted research directly into the browsing experience, with account-based persistence so research follows the user, not the device.
 
 ---
 
@@ -49,9 +50,15 @@ Nexquira addresses these challenges by integrating AI-assisted research directly
 - AI-generated research insights
 
 ### Research Notes
-- Persistent note storage
-- Local browser synchronization
+- Persistent, database-backed note storage (H2)
+- Notes tied to a user account, not just a browser
 - Quick access to saved insights
+- Automatic citation generation for saved notes
+
+### Authentication & Security
+- OAuth2 / JWT-based authentication (Spring Security)
+- Account-linked research notes
+- Environment-based, secure credential configuration
 
 ### Browser Integration
 - Chrome Side Panel support
@@ -61,39 +68,12 @@ Nexquira addresses these challenges by integrating AI-assisted research directly
 ### Engineering Features
 - Spring Boot REST backend
 - Gemini API integration
-- Environment-based configuration
+- H2 database persistence layer
 - Modular and extensible architecture
 
 ---
 
-# 📸 Screenshots
-
-### Extension Interface
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/650dab91-45dc-4633-a0b7-a9c779157925"
-       width="900"
-       alt="Nexquira Interface"/>
-</p>
-
-### AI Generated Summary
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/d656275c-180d-4bc7-aaa6-36edcc3979e0"
-       width="900"
-       alt="AI Generated Summary"/>
-</p>
-
-### Research Notes
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/82e7628b-bece-4230-85fb-95b33524db42"
-       width="400"
-       alt="Research Notes"/>
-</p>
-
----
-#  System Architecture
+# System Architecture
 
 ```text
 ┌────────────────────────────┐
@@ -102,23 +82,30 @@ Nexquira addresses these challenges by integrating AI-assisted research directly
               │
               ▼
 ┌────────────────────────────┐
+│   Spring Security (OAuth2/  │
+│         JWT Auth)           │
+└─────────────┬──────────────┘
+              │
+              ▼
+┌────────────────────────────┐
 │      Spring Boot API       │
 └─────────────┬──────────────┘
               │
-              ▼
-┌────────────────────────────┐
-│      Prompt Builder        │
-└─────────────┬──────────────┘
-              │
-              ▼
-┌────────────────────────────┐
-│     Google Gemini API      │
-└─────────────┬──────────────┘
-              │
-              ▼
-┌────────────────────────────┐
-│    Response Processing     │
-└────────────────────────────┘
+       ┌──────┴───────┐
+       ▼              ▼
+┌─────────────┐  ┌────────────────┐
+│ H2 Database │  │  Prompt Builder │
+│ (Notes +    │  └────────┬───────┘
+│  Citations) │           │
+└─────────────┘           ▼
+              ┌────────────────────────────┐
+              │     Google Gemini API      │
+              └─────────────┬──────────────┘
+                            │
+                            ▼
+              ┌────────────────────────────┐
+              │    Response Processing     │
+              └────────────────────────────┘
 ```
 
 ---
@@ -126,11 +113,13 @@ Nexquira addresses these challenges by integrating AI-assisted research directly
 ## Application Workflow
 
 ```text
+User authenticates (OAuth2 / JWT)
+            ↓
 User selects webpage text
             ↓
 Chrome Extension captures selection
             ↓
-Selected content sent to backend
+Selected content sent to backend (authenticated request)
             ↓
 Prompt generated dynamically
             ↓
@@ -138,7 +127,7 @@ Gemini API processes request
             ↓
 Summary returned to extension
             ↓
-User saves research insights
+User saves research insights + citation to H2 database
 ```
 
 ---
@@ -149,11 +138,13 @@ User saves research insights
 |------------|----------|
 | Java | Backend Development |
 | Spring Boot | REST API |
+| Spring Security | OAuth2 / JWT Authentication |
+| H2 Database | Persistent Note & Citation Storage |
 | WebClient | HTTP Communication |
 | Google Gemini API | AI Summarization |
 | HTML/CSS | UI Development |
 | JavaScript | Extension Logic |
-| Chrome Storage API | Persistent Notes |
+| Chrome Storage API | Local Session State |
 | Manifest V3 | Browser Extension Platform |
 
 ---
@@ -168,6 +159,8 @@ Nexquira
 │   ├── service
 │   ├── dto
 │   ├── model
+│   ├── security      (OAuth2 / JWT configuration)
+│   ├── repository     (H2 persistence)
 │   └── configuration
 │
 ├── extension
@@ -188,17 +181,20 @@ Nexquira
 ### Browser ↔ Backend Communication
 Implemented communication between a Chrome Extension and Spring Boot backend using REST APIs.
 
+### Authentication & Authorization
+Implemented OAuth2 / JWT-based authentication with Spring Security, tying every research note to a specific user account instead of local browser storage.
+
 ### AI Response Parsing
 Designed custom extraction logic for nested Gemini API responses.
 
 ### Prompt Engineering
 Built dynamic prompts for different research operations.
 
-### State Persistence
-Implemented local note persistence using Chrome Storage APIs.
+### Persistent Storage & Citations
+Implemented durable note persistence and automatic citation generation using an H2 database, replacing purely local, browser-bound storage.
 
 ### Secure Configuration
-Secured API credentials using environment variables.
+Secured API credentials and auth secrets using environment variables.
 
 ---
 
@@ -207,6 +203,8 @@ Secured API credentials using environment variables.
 - Layered Architecture
 - Dependency Injection
 - RESTful API Design
+- OAuth2 / JWT Authentication (Spring Security)
+- Database-Backed Persistence (H2)
 - AI Integration
 - Prompt Engineering
 - Browser Extension Development
@@ -219,11 +217,12 @@ Secured API credentials using environment variables.
 
 | Metric | Value |
 |---------|--------|
-| Architecture | Client → API → LLM |
+| Architecture | Client → Auth → API → LLM → DB |
 | Backend Response Time | ~1–2 sec |
 | AI Provider | Google Gemini |
+| Authentication | OAuth2 / JWT (Spring Security) |
+| Database | H2 |
 | Extension Platform | Manifest V3 |
-| Storage | Chrome Local Storage |
 
 ---
 
@@ -321,10 +320,8 @@ extension/
 - Research history
 - Cloud synchronization
 - PDF export
-- Citation generation
 - Multi-LLM support
 - Semantic Search
-- Authentication System
 - Vector Database Integration
 
 ---
@@ -334,6 +331,8 @@ extension/
 - Java Backend Development
 - Spring Boot Ecosystem
 - REST API Design
+- Authentication & Authorization (OAuth2 / JWT)
+- Database Design & Persistence
 - Browser Extension Development
 - AI API Integrations
 - Prompt Engineering
@@ -352,6 +351,7 @@ Unlike traditional summarization tools, Nexquira integrates directly into the br
 ✔ Capture Insights Efficiently  
 ✔ Minimize Context Switching  
 ✔ Improve Knowledge Retention  
+✔ Access Research From Any Device (Account-Linked)
 
 ---
 
